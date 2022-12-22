@@ -9,6 +9,12 @@
 </head>
 <body>
     <h1><%= text %></h1>
+    <form id="post-form" method="post" action="/add-post">
+        <label>Post Text
+            <textarea name="text"></textarea>
+        </label>
+        <input type="submit" value="Submit">
+    </form>
 
     <a href="/index2?name=vlad"> link</a>
 </body>
