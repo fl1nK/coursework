@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer')
-const PDFFile = require('../models/pdfFileModel.js')
+const {addPDF} = require('../controllers/addPDFController')
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     },
 
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + '.pdf')
+        cb(null, Date.now()+'-'+file.originalname)
     }
 });
 
@@ -22,19 +22,7 @@ const imageFileFilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: imageFileFilter});
 
 const addPDFRouter = express.Router();
-addPDFRouter.use(express.json());
 
-addPDFRouter.post('/upload-pdf' ,upload.single('pdfFile'), (req, res) => {
-
-    const filename = req.file.filename;
-    const {name} = req.body;
-
-    const pdfFile = new PDFFile({ name, filename });
-    pdfFile
-        .save()
-        .then(() => res.redirect('/add-pdf-file'))
-        .catch((error) => console.log(error));
-
-})
+addPDFRouter.post('/upload-pdf' ,upload.single('pdfFile'), addPDF)
 
 module.exports = addPDFRouter;

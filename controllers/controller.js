@@ -6,7 +6,7 @@ const home = (req, res) => {
     res.render(createPath('../views/index.ejs'), {text})
 }
 
-const addPDF = (req, res) => {
+const addPDFFile = (req, res) => {
     res.render(createPath('../views/addPDF.ejs'))
 }
 const addPost = (req, res) => {
@@ -23,6 +23,6 @@ const addPost = (req, res) => {
 
 module.exports  ={
     home,
-    addPDF,
+    addPDFFile,
     addPost
 }
