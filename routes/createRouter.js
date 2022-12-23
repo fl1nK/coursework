@@ -46,7 +46,7 @@ createPDFRouter.use(bodyParser.json());
 createPDFRouter.route('/create')
 
     .post((req, res) => {
-      createPdf("../cursework/public/dataPattern/input.pdf", "public/endPDF/output.pdf");
+      createPdf("../cursework/public/dataPatternPDF/input.pdf", "public/endPDF/output.pdf");
       res.statusCode = 200;
       res.send('Create PDF');
     })

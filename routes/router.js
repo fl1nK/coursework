@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const {home, addPost} = require('../controllers/controller.js')
+const {home, addPDF, addPost} = require('../controllers/controller.js')
 
 
 router.get('/', home)
-
+router.get('/add-pdf-file', addPDF)
 // router.get('/index2', (req, res) =>{
 //     const name = req.query['name']
 //     res.render(createPath('index2'), {name})

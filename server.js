@@ -6,6 +6,7 @@ const createPath = require('./helpers/create-path.js')
 const testRouter = require('./routes/router.js')
 const uploadRouter = require('./routes/uploadRouter.js')
 const createRouter = require('./routes/createRouter.js')
+const addPDFRouter = require('./routes/addPDFRouter.js')
 
 const app = express()
 app.set('view engine', 'ejs')
@@ -29,6 +30,7 @@ app.use(express.static('styles'))
 app.use(testRouter)
 app.use(uploadRouter)
 app.use(createRouter)
+app.use(addPDFRouter)
 
 app.use((req, res) =>{
     res

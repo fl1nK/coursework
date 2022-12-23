@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const multer = require('multer');
 const createPath = require('../helpers/create-path.js')
 
@@ -9,7 +8,7 @@ const storage = multer.diskStorage({
     },
 
     filename: (req, file, cb) => {
-        cb(null, file.originalname)
+        cb(null, file.fieldname + '-' + Date.now() + '.json')
     }
 });
 
@@ -20,17 +19,13 @@ const imageFileFilter = (req, file, cb) => {
     cb(null, true);
 };
 
-
-
 const upload = multer({ storage: storage, fileFilter: imageFileFilter});
 
 const uploadRouter = express.Router();
 
-uploadRouter.use(bodyParser.json());
+uploadRouter.use(express.json());
 
-uploadRouter.route('/upload')
-
-    .post(upload.single('imageFile'), (req, res) => {
+uploadRouter.post('/upload' ,upload.single('imageFile'), (req, res) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(req.file);

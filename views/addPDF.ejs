@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add PDF File</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>File Upload</h1>
+    <form id='form' action="/upload-pdf" method="post" enctype="multipart/form-data">
+        <div class="input-group">
+            <label for='name'>Name file</label>
+            <input name='name' id='name' placeholder="Enter name PDF file" required/>
+        </div>
+        <div class="input-group">
+            <label for='files'>Select PDF file</label>
+            <input id='files' type="file" name="pdfFile" required>
+        </div>
+        <button class="submit-btn" type='submit'>Upload PDF</button>
+    </form>
+</div>
+
+
+</body>
+</html>
