@@ -1,9 +1,11 @@
+const express = require('express');
+const bodyParser = require('body-parser');
 const { PDFDocument } = require("pdf-lib");
 const fs = require("fs");
 const util = require("util");
 let data;
 
-fs.readFile("./data.json", "utf8", (err, jsonString) => {
+fs.readFile("public/dataJSON/data.json", "utf8", (err, jsonString) => {
   if (err) {
     console.log("Error reading file from disk:", err);
     return;
@@ -36,4 +38,17 @@ async function createPdf(input, output) {
     console.log("PDF created!");
   });
 }
-createPdf("input.pdf", "output.pdf");
+
+const createPDFRouter = express.Router();
+
+createPDFRouter.use(bodyParser.json());
+
+createPDFRouter.route('/create')
+
+    .post((req, res) => {
+      createPdf("../cursework/public/dataPattern/input.pdf", "public/endPDF/output.pdf");
+      res.statusCode = 200;
+      res.send('Create PDF');
+    })
+
+module.exports = createPDFRouter;

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="../style/index.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
     <h1><%= text %></h1>
@@ -14,6 +14,19 @@
             <textarea name="text"></textarea>
         </label>
         <input type="submit" value="Submit">
+    </form>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="imageFile" /><br>
+        <button type="submit" value="Submit">Upload JSON</button>
+    </form>
+
+    <form action="/create" method="post">
+        <button type="submit" value="Submit">Create PDF</button>
+    </form>
+
+    <form action="/download" method="get">
+        <button type="submit" value="Submit">Download PDF</button>
     </form>
 
     <a href="/index2?name=vlad"> link</a>

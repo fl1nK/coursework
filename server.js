@@ -1,9 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const testRouter = require('./routes/router.js')
-const app = express()
+
 const createPath = require('./helpers/create-path.js')
 
+const testRouter = require('./routes/router.js')
+const uploadRouter = require('./routes/uploadRouter.js')
+const createRouter = require('./routes/createRouter.js')
+
+const app = express()
 app.set('view engine', 'ejs')
 
 const PORT = 3000
@@ -23,9 +27,11 @@ app.use(express.urlencoded({extended: false}))
 app.use(express.static('styles'))
 
 app.use(testRouter)
+app.use(uploadRouter)
+app.use(createRouter)
 
 app.use((req, res) =>{
     res
         .status(404)
-        .render(createPath('error'))
+        .render(createPath('error'),{titel : '404'})
 })
