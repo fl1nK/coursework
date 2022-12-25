@@ -16,6 +16,9 @@
     "url": "https://github.com/fl1nK/cursework/issues"
   },
   "homepage": "https://github.com/fl1nK/cursework#readme",
+  "nodemonConfig" : {
+    "ignore" : [ " **/public/** " ]
+  },
   "dependencies": {
     "body-parser": "^1.20.1",
     "ejs": "^3.1.8",
