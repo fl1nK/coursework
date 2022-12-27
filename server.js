@@ -2,33 +2,34 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 const createPath = require('./helpers/create-path.js')
+const fileUpload = require("express-fileupload");
 
 const testRouter = require('./routes/router.js')
-const uploadRouter = require('./routes/uploadRouter.js')
-const createRouter = require('./routes/createRouter.js')
 const addPDFRouter = require('./routes/addPDFRouter.js')
-const createPDFRouter = require('./routes/createPDFFile.js')
+const createPDFRouter = require('./routes/createPDFRouter.js')
 
-const PORT = 3000
-const db = 'mongodb+srv://vlad:pass123@cluster0.g8rarqs.mongodb.net/pdfpattern?retryWrites=true&w=majority'
-
-mongoose
-    .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected to DB'))
-    .catch((error) => console.log(error))
+const PORT = process.env.PORT || 3000
 
 const app = express()
+
+const start = async () => {
+    try {
+        mongoose.connect('mongodb+srv://vlad:pass123@cluster0.g8rarqs.mongodb.net/pdfpattern?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+        app.listen(PORT, () => console.log(`server start port: ${PORT}`))
+    }catch (e) {
+        console.log(e)
+    }
+}
+
+start()
+
 app.set('view engine', 'ejs')
-app.listen(PORT, (error)=>{
-    error ? console.log(error) : console.log(`server start port: ${PORT}`)
-})
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.static('styles'))
+app.use(fileUpload(''));
 
 app.use(testRouter)
-app.use(uploadRouter)
-app.use(createRouter)
 app.use(addPDFRouter)
 app.use(createPDFRouter)
 
