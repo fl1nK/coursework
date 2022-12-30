@@ -8,8 +8,9 @@
     <title>Reg</title>
 </head>
 <body>
-<h1>Login</h1>
+<%- include('./partials/nav.ejs') %>
 
+<h1>Login</h1>
 <form action="/login" method="post">
     <input name="username" />
     <input name="password" />

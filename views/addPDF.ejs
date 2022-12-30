@@ -8,10 +8,11 @@
     <title>Add PDF File</title>
 </head>
 <body>
+<%- include('./partials/nav.ejs') %>
 
 <div class="container">
     <h1>File Upload</h1>
-    <form id='form' action="/upload-pdf" method="post" enctype="multipart/form-data">
+    <form id='form' action="/add-pdf-file" method="post" enctype="multipart/form-data">
         <div class="input-group">
             <label for='name'>Name file</label>
             <input name='name' id='name' placeholder="Enter name PDF file" required/>

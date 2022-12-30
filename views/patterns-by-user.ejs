@@ -19,6 +19,12 @@
                     <a href="/patterns/<%= id %>"><%= name %></a>
                 </h2>
                 <p><%= filename %></p>
+                <form action="/delete-pdf" method="post">
+                    <button class="btn-delete">
+                        <input type="hidden" class="fas fa-trash-alt" name="id" value="<%= id %>">delete
+                    </button>
+                </form>
+
             </article>
 
         <% }) %>

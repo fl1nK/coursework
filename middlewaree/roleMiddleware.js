@@ -11,7 +11,6 @@ module.exports = function (roles) {
         try {
             const cookies = cookie.parse(req.headers.cookie || '');
             const token = cookies.token.split(' ')[1]
-            console.log(token)
 
             if (!token) {
                 return res.status(403).json({message: "Пользователь не авторизован"})
