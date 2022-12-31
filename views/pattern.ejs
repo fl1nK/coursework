@@ -12,8 +12,8 @@
 
 <h1>Pattern name: <%= pattern.name %> </h1>
 <p> id: <%= pattern.id %></p>
-<p> filename: <%= pattern.filename %></p>
-
+<p> Filename: <%= pattern.filename %></p>
+<p> Values: <%= pattern.values %></p>
 <form action="/create-pdf" method="post" enctype="multipart/form-data">
     <input type="hidden" value="<%= pattern.id %>" name="id" />
     <input type="hidden" value="<%= pattern.filename %>" name="namePDFFile" />

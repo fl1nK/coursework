@@ -1,6 +1,6 @@
 const path = require('path');
 const createPath = require('../helpers/create-path.js')
-const createPdfFile = require('../helpers/create-pdf')
+const {createPdfFile} = require('../helpers/tools-pdf')
 const fs = require("fs");
 
 const createPDF = (req, res) => {

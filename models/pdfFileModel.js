@@ -10,11 +10,7 @@ const pdfFileSchema = new Schema({
         type: String,
         required: true,
     },
-    userid: {
-        type: String,
-        required: true,
-    },
-    role: {
+    values: {
         type: String,
         required: true,
     }
