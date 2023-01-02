@@ -5,17 +5,25 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reg</title>
+    <link rel="stylesheet" type="text/css" href="/main.css">
+    <title>Реєстрація</title>
 </head>
 <body>
 <%- include('./partials/nav.ejs') %>
 
-<h1>Registration</h1>
-
-<form action="/registration" method="post">
-    <input name="username" />
-    <input name="password" />
-    <button type="submit">Registration</button>
-</form>
+<div class="auth-container">
+    <h1>Реєстрація</h1>
+    <form class="auth" action="/registration" method="post">
+        <label>
+            <input type="text" name="username" placeholder="Введіть логін" required/>
+        </label>
+        <label>
+            <input type="password" name="password" placeholder="Введіть пароль" required/>
+        </label>
+        <label>
+            <button class="form-submit" type='submit'>Зареєструватися</button>
+        </label>
+    </form>
+</div>
 </body>
 </html>

@@ -8,10 +8,16 @@ const jwt = require("jsonwebtoken");
 const {secret} = require("../config");
 const {getValuePdf} = require('../helpers/tools-pdf')
 
+const handleError = (res, status, error) => {
+    //console.log(error);
+    res.status(status)
+    res.render(createPath('views/error.ejs'), { error: error });
+};
+
 const addPDF = (req, res) => {
-        // save file -----------------------------
+
         if (!req.files) {
-            return res.status(400).send("No files were uploaded.");
+            return handleError(res,400,'Файл не завантажено')
         }
 
         const file = req.files.pdfFile;
@@ -20,9 +26,9 @@ const addPDF = (req, res) => {
         const allowedExtension = ['.pdf'];
 
         if(!allowedExtension.includes(extensionName)){
-            return res.status(422).send("Invalid File");
+            return handleError(res,422,'Завантаженно некоректний файл')
         }
-        const pathFile = createPath('./public/dataPatternPDF/' + filename )
+        const pathFile = createPath('./data/dataPatternPDF/' + filename )
 
 
         file.mv(pathFile, (err) => {
@@ -49,7 +55,6 @@ const addPDF = (req, res) => {
                     .catch((error) => console.log(error));
             })
         });
-        // ------------------------------------------------
 }
 
 const getPatterns = (req, res) => {
@@ -58,7 +63,7 @@ const getPatterns = (req, res) => {
         .then((user) => {
             PDFFile
                 .find({ _id: user[0].pdf } )
-                .then((patterns) => res.render(createPath('views/patterns-by-user.ejs'),{patterns}))
+                .then((patterns) => res.render(createPath('views/patterns.ejs'),{patterns}))
                 .catch((error) => console.log(error));
         })
         .catch((error) => console.log(error));
@@ -106,7 +111,7 @@ const deletePDF = (req, res) => {
     PDFFile
         .findByIdAndDelete(fileid)
         .then((params) => {
-            const pathFile = createPath('./public/dataPatternPDF/' + params.filename )
+            const pathFile = createPath('./data/dataPatternPDF/' + params.filename )
             fs.unlink(pathFile, (err) => {
                 if (err) throw err;
                 res.redirect('/patterns-by-user')

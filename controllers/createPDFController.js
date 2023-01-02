@@ -3,6 +3,12 @@ const createPath = require('../helpers/create-path.js')
 const {createPdfFile} = require('../helpers/tools-pdf')
 const fs = require("fs");
 
+const handleError = (res, status, error) => {
+    console.log(error);
+    res.status(status)
+    res.render(createPath('views/error.ejs'), { error: error });
+};
+
 const createPDF = (req, res) => {
     const {id, namePDFFile} = req.body
     console.log(id)
@@ -10,7 +16,7 @@ const createPDF = (req, res) => {
 
 
     if (!req.files) {
-        return res.status(400).send("No files were uploaded.");
+        return handleError(res,400,'Файл не завантажено')
     }
 
     const file = req.files.jsonFile;
@@ -20,9 +26,9 @@ const createPDF = (req, res) => {
     const allowedExtension = ['.json'];
 
     if(!allowedExtension.includes(extensionName)){
-        return res.status(422).send("Invalid File");
+        return handleError(res,422,'Завантаженно некоректний файл')
     }
-    const pathFile = createPath('./public/dataJSON/' + nameJSONFile )
+    const pathFile = createPath('./data/dataJSON/' + nameJSONFile )
 
     file.mv(pathFile, (err) => {
         if (err) {return res.status(500).send(err);}
@@ -32,12 +38,14 @@ const createPDF = (req, res) => {
             });
 
             setTimeout(() => {
-                res.download(createPath(`./public/endPDF/${namePDFFile}`), () =>{
-                    fs.unlinkSync(createPath(`./public/endPDF/${namePDFFile}`))
+                if (err) {return res.status(500).send(err);}
+
+                res.download(createPath(`./data/endPDF/${namePDFFile}`), () =>{
+                    fs.unlinkSync(createPath(`./data/endPDF/${namePDFFile}`))
                 })
             }, 2000)
 
-        })
+        }).catch((error) => console.log(error));
     })
  }
 
