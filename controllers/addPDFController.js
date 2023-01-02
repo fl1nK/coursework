@@ -1,6 +1,5 @@
 const PDFFile = require("../models/pdfFileModel");
 const User = require("../models/User");
-const createPath = require('../helpers/create-path.js')
 const path = require("path");
 const fs = require('fs')
 const cookie = require("cookie");
@@ -8,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const {secret} = require("../config");
 const {getValuePdf} = require('../helpers/tools-pdf')
 
+const createPath = require('../helpers/create-path.js')
 const handleError = (res, status, error) => {
     //console.log(error);
     res.status(status)

@@ -23,6 +23,7 @@ authRouter.get('/login', (req, res) => {
 
 authRouter.get('/logout', (req, res) => {
     res.clearCookie('token')
+    res.clearCookie('username')
     res.redirect('/patterns')
 })
 module.exports = authRouter

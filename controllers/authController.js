@@ -56,7 +56,9 @@ class authController {
                 return handleError(res,400,`Введено невірний пароль`)
             }
             const token = generateAccessToken(user._id, user.roles)
-            return res.setHeader('Set-Cookie', cookie.serialize('token', `Bearer ${token}`)).redirect('/patterns')
+            res.cookie()
+            res.setHeader('Set-Cookie', [cookie.serialize('username', username), cookie.serialize('token', `Bearer ${token}`)])
+            return res.redirect('/patterns')
 
         } catch (e) {
             console.log(e)

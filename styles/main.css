@@ -211,3 +211,11 @@ article form {
 .error h1{
     color: #cb2020;
 }
+
+#username {
+    min-height: 60px;
+    display: block;
+    padding: 10px 20px;
+    line-height: 60px;
+    background-color: #928dab;
+}

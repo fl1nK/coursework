@@ -31,35 +31,14 @@
                 <span class="upload-file__text">Завантажити PDF файл</span>
             </label>
         </div>
-        <button class="form-submit" type='submit'>Додати</button>
+        <div>
+            <button class="form-submit" type='submit'>Додати</button>
+        </div>
+
     </form>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const inputFile = document.querySelectorAll(".upload-file__input");
+<script src="/scripts.js"></script>
 
-        /////////// Кнопка «Завантажити PDF файл» ///////////
-        inputFile.forEach(function(el) {
-            let textSelector = document.querySelector(".upload-file__text");
-
-            // Подія вибору файла
-            el.addEventListener("change", function (e) {
-                uploadFile(el.files[0]);
-            });
-
-            // Перевіряємо розмір файлу і виводим назву
-            const uploadFile = (file) => {
-
-                // файла <2 Мб
-                if (file.size > 2 * 1024 * 1024) {
-                    alert("Файл должен быть не более 5 МБ.");
-                    return;
-                }
-                textSelector.textContent = file.name;
-            }
-        });
-    });
-</script>
 </body>
 </html>
