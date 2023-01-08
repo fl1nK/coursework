@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const pdfFileSchema = new Schema({
+const pdfFile = new Schema({
     name: {
         type: String,
         required: true,
@@ -10,11 +10,11 @@ const pdfFileSchema = new Schema({
         type: String,
         required: true,
     },
-    values: {
+    values: [{
         type: String,
         required: true,
-    }
+    }]
 })
 
-const PDFFile = mongoose.model('PDFFile', pdfFileSchema);
+const PDFFile = mongoose.model('PDFFile', pdfFile);
 module.exports = PDFFile;

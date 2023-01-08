@@ -6,13 +6,20 @@ const cookie = require("cookie");
 const jwt = require("jsonwebtoken");
 const {secret} = require("../config");
 const {getValuePdf} = require('../helpers/tools-pdf')
-
 const createPath = require('../helpers/create-path.js')
+
 const handleError = (res, status, error) => {
     //console.log(error);
     res.status(status)
     res.render(createPath('views/error.ejs'), { error: error });
 };
+
+const getUserIdFromCookies = (req) => {
+    const cookies = cookie.parse(req.headers.cookie || '');
+    const token = cookies.token.split(' ')[1]
+    const {id: userid} = jwt.verify(token, secret)
+    return userid
+}
 
 const addPDF = (req, res) => {
 
@@ -22,7 +29,7 @@ const addPDF = (req, res) => {
 
         const file = req.files.pdfFile;
         const filename = Date.now()+'-'+file.name
-        const extensionName = path.extname(filename); // fetch the file extension
+        const extensionName = path.extname(filename);
         const allowedExtension = ['.pdf'];
 
         if(!allowedExtension.includes(extensionName)){
@@ -33,14 +40,19 @@ const addPDF = (req, res) => {
 
         file.mv(pathFile, (err) => {
             if (err) {
-                return res.status(500).send(err);
+                return handleError(res,500,err)
             }
 
             getValuePdf(filename).then(values => {
+                if (!values.length) {
+                    fs.unlink(pathFile, (err) => {
+                        if (err) return handleError(res,500,err)
+                    });
+                    return handleError(res,422,'В шаблоні повина бути хоча б одна форма')
+                }
 
-                const cookies = cookie.parse(req.headers.cookie || '');
-                const token = cookies.token.split(' ')[1]
-                const {id: userid} = jwt.verify(token, secret)
+                const userid = getUserIdFromCookies(req)
+
                 const {name} = req.body;
 
                 const pdfFile = new PDFFile({ name, filename, values });
@@ -120,10 +132,60 @@ const deletePDF = (req, res) => {
         .catch((error) => console.log(error));
 }
 
+
+const addFavoritesPDF = (req, res) => {
+
+    const cookies = cookie.parse(req.headers.cookie || '');
+    const token = cookies.token.split(' ')[1]
+    const {id: userid} = jwt.verify(token, secret)
+
+    const {fileid} = req.body;
+
+    User
+        .findByIdAndUpdate(userid, {$addToSet:{favorites: fileid}})
+        .then(() => res.redirect('/patterns-favorites'))
+        .catch((error) => console.log(error));
+}
+
+const getFavoritesPDF = (req, res) => {
+
+    const cookies = cookie.parse(req.headers.cookie || '');
+    const token = cookies.token.split(' ')[1]
+    const {id: userid} = jwt.verify(token, secret)
+
+    User
+        .findById(userid)
+        .then((user) => {
+            PDFFile
+                .find({ _id: user.favorites } )
+                .then((patterns) => res.render(createPath('views/patterns-favorites.ejs'),{patterns}))
+                .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error));
+}
+
+const deleteFavotitesPDF = (req, res) => {
+
+    const cookies = cookie.parse(req.headers.cookie || '');
+    const token = cookies.token.split(' ')[1]
+    const {id: userid} = jwt.verify(token, secret)
+
+    const {fileid} = req.body;
+
+    User
+        .findByIdAndUpdate(userid, {$pullAll: {favorites: [{_id: fileid}],},})
+        .then(() => res.redirect('/patterns-favorites'))
+        .catch((error) => console.log(error));
+
+}
+
 module.exports  ={
     addPDF,
     getPDF,
     deletePDF,
+    addFavoritesPDF,
+    getFavoritesPDF,
+    deleteFavotitesPDF,
     getPatternsByUserID,
     getPatterns,
     getPattern

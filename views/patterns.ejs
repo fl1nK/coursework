@@ -10,21 +10,29 @@
 </head>
 <body>
 <%- include('./partials/nav.ejs') %>
+<div class="patterns-list-container">
+    <div class="patterns-list">
+        <h1>Шаблони PDF :</h1>
+        <a class="add-submit" href="/add-pdf-file">Додати свій шаблон</a>
 
-<h1>Шаблони PDF :</h1>
+        <ul>
+            <% if (patterns.length) { %>
+                <% patterns.forEach(({ id, name }) => { %>
+                    <article>
+                        <a href="/patterns/<%= id %>"><%= name %></a>
+                        <form action="/add-favorites-pdf" method="post">
+                            <button class="favorites-submit">
+                                <input type="hidden" class="fas fa-trash-alt" name="fileid" value="<%= id %>">Додати в обрані
+                            </button>
+                        </form>
+                    </article>
 
-<ul>
-    <% if (patterns.length) { %>
-        <% patterns.forEach(({ id, name }) => { %>
-            <article>
-                <h2>
-                    <a href="/patterns/<%= id %>"><%= name %></a>
-                </h2>
-            </article>
+                <% }) %>
+            <% } %>
+        </ul>
+    </div>
+</div>
 
-        <% }) %>
-    <% } %>
-</ul>
 
 <script src="/scripts.js"></script>
 

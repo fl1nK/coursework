@@ -21,7 +21,6 @@ async function createPdfFile(pdfFile, jsonFile) {
         const customFont = await pdfDoc.embedFont(fontBytes);
 
         const form = pdfDoc.getForm();
-
         Object.keys(data).forEach((element) => {
             const field = form.getTextField(element);
             field.setText(data[element]);
@@ -29,11 +28,13 @@ async function createPdfFile(pdfFile, jsonFile) {
         });
 
         const file = await pdfDoc.save();
-        fs.writeFile(output, file, () => {
-            console.log("PDF created!");
+        fs.writeFile(output, file, (err) => {
+            if(err){
+                return err
+            }
         });
     }catch (e){
-        console.log(e)
+        return e
     }
 
 
@@ -47,15 +48,65 @@ async function getValuePdf(pdfFile) {
     const form = pdfDoc.getForm();
 
     const fields = form.getFields()
-    let values = ''
+    let arr = []
     fields.forEach(field => {
-        values = field.getName() +', ' + values
+        arr.push(field.getName())
     })
+    return arr
+}
 
-    return values
+function getValueJson(jsonFile) {
+
+    const jsonBytes = fs.readFileSync(createPath(`./data/dataJSON/${jsonFile}`),'utf8');
+    const jsonData = JSON.parse(jsonBytes);
+
+    let arr = []
+    Object.keys(jsonData).forEach(value => {
+        arr.push(value)
+    })
+    return arr
+}
+
+
+function checkPdf(pdf, json) {
+
+    let size
+    if(pdf.length < json.length){
+        size = json.length
+    }else {
+        size = pdf.length
+    }
+
+    for (var i = 0; i < size; i++) {
+        pdf = pdf.filter(e => e !== json[i]);
+    }
+
+    return pdf;
+}
+
+function checkJson(pdf, json) {
+    let size
+    if(pdf.length < json.length){
+        size = json.length
+    }else {
+        size = pdf.length
+    }
+
+    for (var i = 0; i < size; i++) {
+        json = json.filter(e => e !== pdf[i]);
+    }
+    return json;
+}
+
+function checkExcessive(pdfFile, jsonFile) {
+    return getValuePdf(pdfFile).then(pdf =>{
+        let json = getValueJson(jsonFile)
+        return checkJson(pdf, json)
+    })
 }
 
 module.exports  ={
     createPdfFile,
-    getValuePdf
+    getValuePdf,
+    checkExcessive
 }

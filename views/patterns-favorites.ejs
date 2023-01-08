@@ -10,32 +10,20 @@
 </head>
 <body>
 <%- include('./partials/nav.ejs') %>
-
 <div class="patterns-list-container">
     <div class="patterns-list">
-
-        <h1>Свої шаблони PDF :</h1>
+        <h1>Обрані шаблони PDF :</h1>
         <a class="add-submit" href="/add-pdf-file">Додати свій шаблон</a>
-
         <ul>
             <% if (patterns.length) { %>
                 <% patterns.forEach(({ id, name }) => { %>
                     <article>
                         <a href="/patterns/<%= id %>"><%= name %></a>
-                        <div class="pattern-button">
-                            <form action="/add-favorites-pdf" method="post">
-                                <button class="favorites-submit">
-                                    <input type="hidden" class="fas fa-trash-alt" name="fileid" value="<%= id %>">Додати в обрані
-                                </button>
-                            </form>
-                            <form action="/delete-pdf" method="post">
-                                <button class="delete-submit">
-                                    <input type="hidden" class="fas fa-trash-alt" name="fileid" value="<%= id %>">Видалити
-                                </button>
-                            </form>
-                        </div>
-
-
+                        <form action="/delete-favorites" method="post">
+                            <button class="delete-submit">
+                                <input type="hidden" class="fas fa-trash-alt" name="fileid" value="<%= id %>">Видалити
+                            </button>
+                        </form>
                     </article>
 
                 <% }) %>
@@ -43,6 +31,8 @@
         </ul>
     </div>
 </div>
+
+
 <script src="/scripts.js"></script>
 
 </body>

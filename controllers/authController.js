@@ -8,7 +8,7 @@ const cookie = require('cookie');
 const createPath = require('../helpers/create-path.js')
 
 const handleError = (res, status, error) => {
-    console.log(error);
+    //console.log(error);
     res.status(status)
     res.render(createPath('views/error.ejs'), { error: error });
 };
@@ -24,9 +24,9 @@ const generateAccessToken = (id, roles) => {
 class authController {
     async registration(req, res) {
         try {
-            const errors = validationResult(req)
+            const errors = validationResult(req).formatWith(({msg}) => msg)
             if (!errors.isEmpty()) {
-                return handleError(res,400,'Помилка при реєстрації')
+                return handleError(res,400,errors.array())
             }
             const {username, password} = req.body;
             const candidate = await User.findOne({username})
@@ -56,8 +56,13 @@ class authController {
                 return handleError(res,400,`Введено невірний пароль`)
             }
             const token = generateAccessToken(user._id, user.roles)
-            res.cookie()
-            res.setHeader('Set-Cookie', [cookie.serialize('username', username), cookie.serialize('token', `Bearer ${token}`)])
+
+            const usernameCookie = cookie.serialize('username', username)
+            const tokenCookie = cookie.serialize('token', `Bearer ${token}`)
+            res.setHeader('Set-Cookie', [usernameCookie, tokenCookie],{
+                httpOnly: true,
+                maxAge: 60 * 60 * 24 // 1 day
+            })
             return res.redirect('/patterns')
 
         } catch (e) {

@@ -15,9 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Перевіряємо розмір файлу і виводим назву
         const uploadFile = (file) => {
 
-            // файла <2 Мб
-            if (file.size > 2 * 1024 * 1024) {
-                alert("Файл повинен бути менше 2 МБ.");
+            // файла <5 Мб
+            if (file.size >  5 * 1024 * 1024) {
+                alert("Файл повинен бути менше 5 МБ.");
+                document.location.reload();
                 return;
             }
             textSelector.textContent = file.name;
@@ -25,11 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-function setCookie(cname, cvalue, exdays) {
-    const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    let expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+function removeSpaces(string) {
+    return string.split(' ').join('');
 }
 
 function getCookie(cname) {
@@ -37,10 +35,10 @@ function getCookie(cname) {
     let ca = document.cookie.split(';');
     for(let i = 0; i < ca.length; i++) {
         let c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }
@@ -49,7 +47,7 @@ function getCookie(cname) {
 
 function checkCookie() {
     let user = getCookie('username');
-    if (user != '') {
+    if (user !== '') {
         document.getElementById('exit').hidden = false;
         document.getElementById('login').hidden = true;
         document.getElementById('registration').hidden = true;

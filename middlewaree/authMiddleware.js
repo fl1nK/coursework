@@ -15,10 +15,13 @@ module.exports = function (req, res, next) {
     }
     try {
         const cookies = cookie.parse(req.headers.cookie || '');
-        const token = cookies.token.split(' ')[1]
+        let token;
+        if (cookies.token){
+            token = cookies.token.split(' ')[1]
+        }
 
         if (!token) {
-            return handleError(res,403,'Користувач не авторизований')
+            return handleError(res,403,'Для того, щоб користуватись цим, потрібно авторизуватись!!!')
         }
         const decodedData = jwt.verify(token, secret)
         req.user = decodedData

@@ -15,15 +15,17 @@
     <h1>Реєстрація</h1>
     <form class="auth" action="/registration" method="post">
         <label>
-            <input type="text" name="username" placeholder="Введіть логін" required/>
+            <input type="text" onkeyup="this.value=removeSpaces(this.value)" name="username" placeholder="Введіть логін" minlength="1"  required/>
         </label>
         <label>
-            <input type="text" name="password" placeholder="Введіть пароль" required/>
+            <input type="text" onkeyup="this.value=removeSpaces(this.value)"  name="password" placeholder="Введіть пароль" minlength="4" maxlength="10" required/>
         </label>
         <label>
             <button class="form-submit" type='submit'>Зареєструватися</button>
         </label>
     </form>
 </div>
+
+<script src="/scripts.js"></script>
 </body>
 </html>
