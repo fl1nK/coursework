@@ -63,7 +63,6 @@ article {
     justify-content: space-between;
 }
 
-
 article a {
     display: flex;
     align-items: center;
@@ -294,7 +293,6 @@ article form {
     align-self: center;
     text-align: center;
 }
-
 
 iframe {
     height: 800px;

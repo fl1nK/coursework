@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/fl1nK/cursework#readme",
   "nodemonConfig": {
-    "ignore": ["**/data/**", "**/test/**"]
+    "ignore": [
+      "**/data/**",
+      "**/test/**"
+    ]
   },
   "dependencies": {
     "@pdf-lib/fontkit": "^1.1.1",
@@ -28,6 +31,7 @@
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "express-fileupload-validator": "^2.0.1",
+    "express-status-monitor": "^1.3.4",
     "express-validator": "^6.14.2",
     "file-type": "^18.0.0",
     "jsonwebtoken": "^9.0.0",
