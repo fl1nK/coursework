@@ -15,10 +15,10 @@
     <h1>Вхід</h1>
     <form class="auth" action="/login" method="post">
         <label>
-            <input type="text" onkeyup="this.value=removeSpaces(this.value)" name="username" placeholder="Введіть логін" minlength="1" required/>
+            <input type="text" onkeyup="this.value=removeSpaces(this.value)" name="username" placeholder="Введіть логін" minlength="1" maxlength="10" autocomplete="off" required/>
         </label>
         <label>
-            <input type="text" onkeyup="this.value=removeSpaces(this.value)" name="password" placeholder="Введіть пароль" minlength="4" maxlength="10" required/>
+            <input type="password" onkeyup="this.value=removeSpaces(this.value)" name="password" placeholder="Введіть пароль" minlength="4" maxlength="10" autocomplete="off" required/>
         </label>
         <label>
             <button class="form-submit" type='submit'>Увійти</button>

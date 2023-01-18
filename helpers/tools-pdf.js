@@ -26,6 +26,7 @@ async function createPdfFile(pdfFile, jsonFile) {
             field.setText(data[element]);
             field.updateAppearances(customFont)
         });
+        //form.flatten();
 
         const file = await pdfDoc.save();
         fs.writeFile(output, file, (err) => {

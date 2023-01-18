@@ -7,8 +7,8 @@ const createPath = require('../helpers/create-path.js')
 const authRouter = express.Router();
 
 authRouter.post('/registration', [
-    check('username', "Имя пользователя не может быть пустым").notEmpty(),
-    check('password', "Пароль должен быть больше 4 и меньше 10 символов").isLength({min:4, max:10})
+    check('username', "Логін повинен бути більше 1 і меньше 10 символів").isLength({min:1, max:10}),
+    check('password', "Пароль повинен бути більше 4 і меньше 10 символів").isLength({min:4, max:10})
 ], controller.registration)
 
 authRouter.post('/login', controller.login)
@@ -26,4 +26,7 @@ authRouter.get('/logout', (req, res) => {
     res.clearCookie('username')
     res.redirect('/patterns')
 })
+
+authRouter.get('/delete-user',  controller.delete)
+
 module.exports = authRouter

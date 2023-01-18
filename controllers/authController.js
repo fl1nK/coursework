@@ -6,6 +6,8 @@ const { validationResult } = require('express-validator')
 const {secret} = require("../config")
 const cookie = require('cookie');
 const createPath = require('../helpers/create-path.js')
+const PDFFile = require("../models/pdfFileModel");
+const fs = require("fs");
 
 const handleError = (res, status, error) => {
     //console.log(error);
@@ -68,6 +70,43 @@ class authController {
         } catch (e) {
             console.log(e)
             return handleError(res,400,`Помилка при вході`)
+        }
+    }
+
+    async delete(req, res) {
+        try {
+
+            const cookies = cookie.parse(req.headers.cookie || '');
+            const token = cookies.token.split(' ')[1]
+            const {id: userid} = jwt.verify(token, secret)
+
+            User
+                .findByIdAndDelete({ _id: userid })
+                .then((user) => {
+                    PDFFile
+                        .find({ _id: user.pdf } )
+                        .then((patterns) => {
+                            for(let i = 0; i < patterns.length; i++){
+                                PDFFile
+                                    .findByIdAndDelete(patterns[i].id)
+                                    .then((params) => {
+                                        const pathFile = createPath('./data/dataPatternPDF/' + params.filename )
+                                        fs.unlink(pathFile, (err) => {
+                                            if (err) throw err;
+                                        });
+                                    })
+                                    .catch((error) => console.log(error));
+                            }
+                        })
+                        .catch((error) => console.log(error));
+
+                    res.redirect('/logout')
+                })
+                .catch((error) => console.log(error));
+
+        } catch (e) {
+            console.log(e)
+            return handleError(res,500,`Помилка при видалені акаунту`)
         }
     }
 

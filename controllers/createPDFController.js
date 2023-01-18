@@ -9,7 +9,7 @@ const handleError = (res, status, error) => {
 };
 
 const createPDF = (req, res) => {
-    const {namePDFFile} = req.body
+    const {id, namePDFFile} = req.body
 
     if (!req.files) {
         return handleError(res,400,'Файл не завантажено')
@@ -52,15 +52,12 @@ const createPDF = (req, res) => {
                 setTimeout(() => {
                     res.download(createPath(`./data/endPDF/${namePDFFile}`), (err) =>{
                         if (err) {return handleError(res,500,err);}
-                        fs.unlink(createPath(`./data/endPDF/${namePDFFile}`),(err) => {
-                            if (err) {return handleError(res,500,err);}
-                        })
+                        fs.unlinkSync(createPath(`./data/endPDF/${namePDFFile}`))
                     })
                 }, 2000)
 
             }).catch((err) => handleError(res,500,err));
         }).catch((err) => handleError(res,500,err));
-
 
     })
  }

@@ -120,6 +120,11 @@ const deletePDF = (req, res) => {
         .then()
         .catch((error) => console.log(error));
 
+    User
+        .findByIdAndUpdate(userid, {$pullAll: {favorites: [{_id: fileid}],},})
+        .then()
+        .catch((error) => console.log(error));
+
     PDFFile
         .findByIdAndDelete(fileid)
         .then((params) => {

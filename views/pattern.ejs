@@ -12,13 +12,19 @@
 <%- include('./partials/nav.ejs') %>
 <div class="pattern-container">
     <div class="pattern">
+        <iframe src="/<%= pattern.filename %>#toolbar=0"></iframe>
         <div class="pattern-form">
+            <form action="/add-favorites-pdf" method="post">
+                <button class="favorites-submit">
+                    <input type="hidden" class="fas fa-trash-alt" name="fileid" value="<%= pattern.id %>">Додати в обрані
+                </button>
+            </form>
             <h1>Назва PDF шаблону:<br> <%= pattern.name %> </h1>
             <div>
                 <p>Значення, які потрібні заповнити в JSON файл:</p>
                 <p><%= pattern.values %></p>
             </div>
-            <form  action="/create-pdf" method="post" enctype="multipart/form-data">
+            <form class="pattern-form-form" action="/create-pdf" method="post" enctype="multipart/form-data">
                 <input type="hidden" value="<%= pattern.id %>" name="id" />
                 <input type="hidden" value="<%= pattern.filename %>" name="namePDFFile" />
                 <div class="upload-file__wrapper">
@@ -30,14 +36,13 @@
                             accept=".json"
                             required
                     >
-                    <label class="upload-file__label" for="upload-file__input_1">
+                    <label class="upload-file__label" for="upload-file__input_1" onclick="fileUpload()">
                         <span class="upload-file__text">Завантажити JSON файл</span>
                     </label>
                 </div>
                 <button class="form-submit" type='submit'>Створити PDF шаблон</button>
             </form>
         </div>
-        <iframe src="/<%= pattern.filename %>"></iframe>
     </div>
 
 </div>

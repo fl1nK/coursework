@@ -15,7 +15,7 @@
     <h1>Додати PDF шаблон</h1>
     <form class="add-file" action="/add-pdf-file" method="post" enctype="multipart/form-data">
         <label>
-            <input type="text" onkeyup="this.value=removeSpaces(this.value)" name='name' placeholder="Напишіть назву для PDF файлу" maxlength="50" required/>
+            <input type="text" onkeyup="this.value=removeStartSpace(this.value)" name='name' placeholder="Напишіть назву для PDF файлу" maxlength="50" required/>
         </label>
 
         <div class="upload-file__wrapper">
@@ -28,7 +28,7 @@
                     accept=".pdf"
                     required
             >
-            <label class="upload-file__label" for="upload-file__input_1">
+            <label class="upload-file__label" for="upload-file__input_1" onclick="fileUpload()">
                 <span class="upload-file__text">Завантажити PDF файл</span>
             </label>
         </div>

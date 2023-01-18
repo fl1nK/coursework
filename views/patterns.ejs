@@ -20,11 +20,11 @@
                 <% patterns.forEach(({ id, name }) => { %>
                     <article>
                         <a href="/patterns/<%= id %>"><%= name %></a>
-                        <form action="/add-favorites-pdf" method="post">
-                            <button class="favorites-submit">
-                                <input type="hidden" class="fas fa-trash-alt" name="fileid" value="<%= id %>">Додати в обрані
-                            </button>
-                        </form>
+<!--                        <form action="/add-favorites-pdf" method="post">-->
+<!--                            <button class="favorites-submit">-->
+<!--                                <input type="hidden" class="fas fa-trash-alt" name="fileid" value="<%= id %>">Додати в обрані-->
+<!--                            </button>-->
+<!--                        </form>-->
                     </article>
 
                 <% }) %>

@@ -1,6 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
 
-    checkCookie()
+checkCookie()
+fileUpload()
+function fileUpload(){
     const inputFile = document.querySelectorAll(".upload-file__input");
 
     /////////// Кнопка «Завантажити PDF файл» ///////////
@@ -24,10 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
             textSelector.textContent = file.name;
         }
     });
-});
+}
 
 function removeSpaces(string) {
     return string.split(' ').join('');
+}
+
+function removeStartSpace(string) {
+    return string.trimStart()
 }
 
 function getCookie(cname) {
@@ -46,16 +51,19 @@ function getCookie(cname) {
 }
 
 function checkCookie() {
-    let user = getCookie('username');
+    let user = decodeURI(getCookie('username'));
     if (user !== '') {
         document.getElementById('exit').hidden = false;
         document.getElementById('login').hidden = true;
         document.getElementById('registration').hidden = true;
         document.getElementById('username').textContent = user;
+        document.getElementById('delete-user').hidden = false;
     } else {
         document.getElementById('exit').hidden = true;
         document.getElementById('login').hidden = false;
         document.getElementById('registration').hidden = false;
         document.getElementById('username').textContent = 'Гість';
+        document.getElementById('delete-user').hidden = true;
+
     }
 }
